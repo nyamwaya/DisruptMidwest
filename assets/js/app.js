@@ -11,40 +11,71 @@
   };
   firebase.initializeApp(config);
     
-   //get element
+   //get elements
    var jobsTable = document.getElementById('jobsTable')
-   var elements = document.getElementById('swag')
+   var secondJobsTable = document.getElementById('secondList')
   
-   //Create reference    
-   var jobs = firebase.database().ref().child('Jobs'); 
+   //Create reference to jobs nonde    
+   var jobs = firebase.database().ref().child('Jobs/0/'); 
+   var secondJobs = firebase.database().ref().child('Jobs/1/'); 
+
+    
+   secondJobs.on('value', snap =>{
+       snap.forEach(function(child){
+          var secondData = child.val()
+          
+          console.log(child.key+': '+child.val())
+           
+           var tr = document.createElement('tr');
+           var mSComapny = document.createElement('td');
+           var mSPosition = document.createElement('td');
+           var mSLocation = document.createElement('td');
+           
+           
+           
+           mSComapny.innerText = secondData.company
+           mSPosition.innerText = secondData.title
+           mSLocation.innerText = secondData.location
+           
+           tr.appendChild(mSComapny)
+           tr.appendChild(mSPosition)
+           tr.appendChild(mSLocation)
+           
+           secondJobsTable.append(tr)
+       });
+       
+       
+   });
     
     
-   //Sync object changes    
+   //sync jobs   
    jobs.on('value', snap => {
        snap.forEach(function(child){
           var data = child.val()
-              
+      
            console.log(child.key+': '+child.val());
            
            var tr = document.createElement('tr');
            var mComapny = document.createElement('td');
            var mPosition = document.createElement('td');
            var mLocation = document.createElement('td');
-           var mEmployment = document.createElement('td');
+           /*var mEmployment = document.createElement('td');*/
         
            mComapny.innerText = data.company
            mPosition.innerText = data.title
            mLocation.innerText = data.location
-           mEmployment.innerText = data.employment
+       /*    mEmployment.innerText = data.employment*/
            
-           if(data.employment == null){
+          // var word = mComapny.link('www.google.com')
+           
+  /*         if(data.employment == null){
                 mEmployment.innerText = ""
-           }
+           }*/
     
            tr.appendChild(mComapny)
            tr.appendChild(mPosition)
            tr.appendChild(mLocation)
-           tr.appendChild(mEmployment)
+          /* tr.appendChild(mEmployment)*/
            
            jobsTable.appendChild(tr)
        })
