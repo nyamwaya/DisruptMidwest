@@ -14,12 +14,15 @@
    //get elements
    var jobsTable = document.getElementById('jobsTable')
    var secondJobsTable = document.getElementById('secondList')
-  
+   
    //Create reference to jobs nonde    
-   var jobs = firebase.database().ref().child('Jobs/0/'); 
-   var secondJobs = firebase.database().ref().child('Jobs/1/'); 
-
+   var jobs = firebase.database().ref().child('Guide/Jobs/0/'); 
+   var secondJobs = firebase.database().ref().child('Guide/Jobs/1/'); 
+  
     
+
+   
+//sync jobs       
    secondJobs.on('value', snap =>{
        snap.forEach(function(child){
           var secondData = child.val()
@@ -47,8 +50,7 @@
        
    });
     
-    
-   //sync jobs   
+     
    jobs.on('value', snap => {
        snap.forEach(function(child){
           var data = child.val()
@@ -64,13 +66,7 @@
            mComapny.innerText = data.company
            mPosition.innerText = data.title
            mLocation.innerText = data.location
-       /*    mEmployment.innerText = data.employment*/
-           
-          // var word = mComapny.link('www.google.com')
-           
-  /*         if(data.employment == null){
-                mEmployment.innerText = ""
-           }*/
+
     
            tr.appendChild(mComapny)
            tr.appendChild(mPosition)
@@ -79,14 +75,7 @@
            
            jobsTable.appendChild(tr)
        })
-//       bigOne.innerHTML = JSON.stringify(snap.val(), null,3)
+
    });
      
 }());
-/*
-jQuery.each(arrayobj, function(key, value){ 
-    jQuery.each(value, function(label, answer){
-        display = '<tr><td>'+label+ '</td><td>' +answer+'</td></tr>'
-    }); 
-});
-$('#tbody').append(display); */
